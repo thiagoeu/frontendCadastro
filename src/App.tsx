@@ -1,10 +1,10 @@
 import React from 'react';
 
 
-export const  App = () => {
+export const App = () => {
   return (
     <div className="App">
-      <h1>testes</h1>
+      <h1>testes3</h1>
     </div>
   );
 }
