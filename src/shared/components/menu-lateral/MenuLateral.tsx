@@ -1,10 +1,10 @@
 import { Box, Drawer, useTheme, Avatar, Divider, List, ListItemButton, ListItemIcon, ListItemText, Icon, useMediaQuery } from "@mui/material";
 import React from "react";
-import { useDrawerContext } from "../../contexts";
+import { useAppThemeContext, useDrawerContext } from "../../contexts";
 import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 
 
-interface IAppThemeProviderProps {
+interface IMenuLateralProps {
     children: React.ReactNode;
 };
 
@@ -16,11 +16,11 @@ interface IListItemLinkProps {
     onClick: (() => void) | undefined;
 }
 
-const ListItemLink: React.FC<IListItemLinkProps> = ({ icon,label, to, onClick }) => {
+const ListItemLink: React.FC<IListItemLinkProps> = ({ icon, label, to, onClick }) => {
     const navigate = useNavigate();
 
     const resolvedPath = useResolvedPath(to);
-    const match = useMatch({path: resolvedPath.pathname, end: false })
+    const match = useMatch({ path: resolvedPath.pathname, end: false })
 
     const handleClick = () => {
         navigate(to);
@@ -32,15 +32,15 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ icon,label, to, onClick })
             <ListItemIcon>
                 <Icon>{icon}</Icon>
             </ListItemIcon>
-            <ListItemText primary={label}/>
+            <ListItemText primary={label} />
         </ListItemButton>
-    )
-}
-export const MenuLateral: React.FC<IAppThemeProviderProps> = ({ children }) => {
+    );
+};
+export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
     const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
-
+    const { toggleTheme } = useAppThemeContext();
 
     return (
         <>
@@ -51,17 +51,27 @@ export const MenuLateral: React.FC<IAppThemeProviderProps> = ({ children }) => {
                     </Box>
                     <Divider />
                     <Box flex={1}>
-                    <List component="nav">
-                      {drawerOptions.map(drawerOptions => (
-                          <ListItemLink
-                          key={drawerOptions.path}
-                          to = {drawerOptions.path}
-                          icon= {drawerOptions.icon}
-                          label={drawerOptions.label}
-                          onClick={smDown ? toggleDrawerOpen : undefined}
-                          />
-                        ))}
-                    </List>
+                        <List component="nav">
+                            {drawerOptions.map(drawerOptions => (
+                                <ListItemLink
+                                    key={drawerOptions.path}
+                                    to={drawerOptions.path}
+                                    icon={drawerOptions.icon}
+                                    label={drawerOptions.label}
+                                    onClick={smDown ? toggleDrawerOpen : undefined}
+                                />
+                            ))}
+                        </List>
+                    </Box>
+                    <Box >
+                        <List component="nav">
+                            <ListItemButton onClick={toggleTheme}>
+                                <ListItemIcon>
+                                    <Icon>contrast</Icon>
+                                </ListItemIcon>
+                                <ListItemText primary="Alterar tema" />
+                            </ListItemButton>
+                        </List>
                     </Box>
                 </Box>
             </Drawer>
