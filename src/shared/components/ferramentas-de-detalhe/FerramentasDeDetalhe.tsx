@@ -1,5 +1,5 @@
 
-import { Box, Button, Paper, useTheme, Icon, Divider } from "@mui/material";
+import { Box, Button, Paper, useTheme, Icon, Divider, Skeleton } from "@mui/material";
 
 interface IFerramentasDeDetalheProps {
     textoBotaoNovo?: string;
@@ -9,6 +9,12 @@ interface IFerramentasDeDetalheProps {
     mostrarBotaoApagar?: boolean;
     mostrarBotaoSalvarEFechar?: boolean;
     mostrarBotaoSalvar?: boolean;
+
+    mostrarBotaoNovoCarregando?: boolean;
+    mostrarBotaoVoltarCarregando?: boolean;
+    mostrarBotaoApagarCarregando?: boolean;
+    mostrarBotaoSalvarEFecharCarregando?: boolean;
+    mostrarBotaoSalvarCarregando?: boolean;
 
     aoClicarEmNovo?: () => void;
     aoClicarEmVoltar?: () => void;
@@ -24,6 +30,12 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
     mostrarBotaoApagar = true,
     mostrarBotaoSalvarEFechar = false,
     mostrarBotaoSalvar = true,
+
+    mostrarBotaoNovoCarregando = false,
+    mostrarBotaoVoltarCarregando = false,
+    mostrarBotaoApagarCarregando = false,
+    mostrarBotaoSalvarEFecharCarregando = false,
+    mostrarBotaoSalvarCarregando = false,
 
     aoClicarEmNovo,
     aoClicarEmVoltar,
@@ -44,15 +56,8 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
             alignItems='center'
             component={Paper}>
 
-            {mostrarBotaoNovo && (<Button
-                onClick={aoClicarEmNovo}
-                variant="contained"
-                color="primary"
-                disableElevation
-                startIcon={<Icon>save</Icon>}
-            >{textoBotaoNovo}</Button>)}
 
-            {mostrarBotaoSalvar && (<Button
+           {(mostrarBotaoSalvar && !mostrarBotaoSalvarCarregando) && (<Button
                 onClick={aoClicarEmSalvar}
                 variant="contained"
                 color="primary"
@@ -60,15 +65,29 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
                 startIcon={<Icon>save</Icon>}
             >Salvar</Button>)}
 
-            {mostrarBotaoSalvarEFechar && (<Button
+            {(mostrarBotaoSalvarCarregando && !mostrarBotaoNovoCarregando) && (<Skeleton width={108} height={60}/> )}
+
+            {(mostrarBotaoNovo && !mostrarBotaoNovoCarregando) && (<Button
+                onClick={aoClicarEmNovo}
+                variant="outlined"
+                color="primary"
+                disableElevation
+                startIcon={<Icon>save</Icon>}
+            >{textoBotaoNovo}</Button>)}
+
+            {mostrarBotaoNovoCarregando && (<Skeleton width={108} height={60}/> )}
+                
+            {(mostrarBotaoSalvarEFechar && !mostrarBotaoSalvarEFecharCarregando) && (<Button
                 onClick={aoClicarEmSalvarEFechar}
                 variant="outlined"
                 color="primary"
                 disableElevation
                 startIcon={<Icon>save</Icon>}
             >Salvar e Voltar</Button>)}
+            
+            {mostrarBotaoSalvarEFecharCarregando && (<Skeleton width={180} height={60}/> )}
 
-            {mostrarBotaoApagar && (<Button
+            {(mostrarBotaoApagar && !mostrarBotaoApagarCarregando) && (<Button
                 onClick={aoClicarEmApagar}
                 variant="outlined"
                 color="primary"
@@ -77,16 +96,19 @@ export const FerramentasDeDetalhe: React.FC<IFerramentasDeDetalheProps> = ({
             >Apagar</Button>)}
 
 
+            {mostrarBotaoApagarCarregando && (<Skeleton width={180} height={60}/> )}
+
 
             <Divider variant="middle" orientation="vertical"></Divider>
 
-            {mostrarBotaoVoltar && (<Button
+            {(mostrarBotaoVoltar && !mostrarBotaoVoltarCarregando) && (<Button
                 onClick={aoClicarEmVoltar}
                 variant="outlined"
                 color="primary"
                 disableElevation
                 startIcon={<Icon>arrow_back</Icon>}
             >Voltar</Button>)}
+            {mostrarBotaoVoltarCarregando && (<Skeleton width={180} height={60}/> )}
 
 
         </Box>
