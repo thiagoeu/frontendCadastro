@@ -1,9 +1,6 @@
 import { Api } from "../axios-config";
 import { Enviroment } from "../../../environment";
 
-
-
-
 interface IListagemPessoa {
     id: number;
     email: string;
