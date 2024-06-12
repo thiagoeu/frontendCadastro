@@ -1,7 +1,7 @@
 import { Api } from "../axios-config";
-import { Enviroment } from "../../../environment";
+import { Environment } from "../../../environment";
 
-interface IListagemPessoa {
+export interface IListagemPessoa {
     id: number;
     email: string;
     nomeCompleto: string;
@@ -9,7 +9,7 @@ interface IListagemPessoa {
 
 }
 
-interface IDetalhePessoa {
+export interface IDetalhePessoa {
     id: number;
     email: string;
     nomeCompleto: string;
@@ -24,14 +24,14 @@ type TPessoasComTotalCount = {
 
 const getAll = async (page = 1, filter = ''): Promise<TPessoasComTotalCount | Error> => {
     try {
-        const urlRelativa = `/pessoas?_page=${page}&_limit=${Enviroment.LIMITE_DE_LINHAS}&nomeCompleto_like=${filter}`
+        const urlRelativa = `/pessoas?_page=${page}&_limit=${Environment.LIMITE_DE_LINHAS}&nomeCompleto_like=${filter}`
 
         const { data, headers } = await Api.get(urlRelativa);
 
         if (data) {
             return {
                 data,
-                totalCount: Number(headers['x-total-count'] || Enviroment.LIMITE_DE_LINHAS),
+                totalCount: Number(headers['x-total-count'] || Environment.LIMITE_DE_LINHAS),
             }
             
         }
